@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { Checkbox } from './checkbox'
 
@@ -19,8 +19,11 @@ export const PassGenerate = () => {
 	})
 
 	const [password, setPassword] = useState('')
+	const [passwordStrength, setPasswordStrength] = useState('Слабый')
 
 	function generatePassword() {
+		if (passwordStrength === 'Выберите минимум 1 параметр') return
+
 		let addedLetters = ''
 		let createdPassword = ''
 
@@ -49,7 +52,6 @@ export const PassGenerate = () => {
 		copyTextToClipboard(createdPassword)
 	}
 
-	//https://sky.pro/wiki/javascript/kopirovanie-teksta-v-bufer-obmena-na-react-js-reshenie/
 	const copyTextToClipboard = async text => {
 		try {
 			await navigator.clipboard.writeText(text)
@@ -58,6 +60,38 @@ export const PassGenerate = () => {
 			toast.error('This is an error!')
 		}
 	}
+
+	useEffect(() => {
+		let isTrueChecked = 0
+
+		if (parameterChecked.numbers) {
+			isTrueChecked++
+		}
+		if (parameterChecked.symbols) {
+			isTrueChecked++
+		}
+		if (parameterChecked.lowercaseLetters) {
+			isTrueChecked++
+		}
+		if (parameterChecked.uppercaseLetters) {
+			isTrueChecked++
+		}
+
+		if (isTrueChecked === 0) {
+			setPasswordStrength('Выберите минимум 1 параметр')
+		} else if (isTrueChecked >= 3 && parameterChecked.length >= 14) {
+			setPasswordStrength('Сильный')
+		} else if (
+			isTrueChecked > 1 &&
+			isTrueChecked <= 4 &&
+			parameterChecked.length >= 8 &&
+			parameterChecked.length <= 13
+		) {
+			setPasswordStrength('Средний')
+		} else {
+			setPasswordStrength('Слабый')
+		}
+	}, [parameterChecked])
 
 	return (
 		<section className='px-10 py-10 max-w-92'>
@@ -101,7 +135,7 @@ export const PassGenerate = () => {
 						}))
 					}
 					onKeyDown={e => e.preventDefault()}
-					min='4'
+					min='6'
 					max='20'
 				/>
 			</div>
@@ -114,26 +148,23 @@ export const PassGenerate = () => {
 					readOnly
 				/>
 				<button
-					className='w-full p-1.5 mb-5 bg-white/80 text-black/95 text-lg rounded'
+					className='w-full p-1.5 mb-8 bg-white/80 text-black/95 text-lg rounded'
 					onClick={() => generatePassword()}
 				>
 					Создать
 				</button>
+
+				<div className='relative w-full h-3 bg-white/75 rounded'>
+					<div
+						className={`absolute top-0 left-0 h-3 rounded ${
+							passwordStrength === 'Слабый' && 'w-1/3 bg-red-800'
+						} ${passwordStrength === 'Средний' && 'w-2/3 bg-orange-400'} ${
+							passwordStrength === 'Сильный' && 'w-full bg-green-700'
+						}`}
+					></div>
+				</div>
+				<div className='text-center mt-1.5'>{passwordStrength}</div>
 			</div>
-			{/* <div>
-				{parameterChecked.uppercaseLetters &&
-					parameterChecked.lowercaseLetters &&
-					parameterChecked.symbols &&
-					parameterChecked.numbers &&
-					parameterChecked.length >= 13 &&
-					'Уровень защиты:  Сильный'}
-				{parameterChecked.length <= 6 &&
-					(parameterChecked.uppercaseLetters ||
-						parameterChecked.lowercaseLetters ||
-						parameterChecked.symbols ||
-						parameterChecked.numbers) &&
-					'Уровень защиты:  Слабый'}
-			</div> */}
 		</section>
 	)
 }

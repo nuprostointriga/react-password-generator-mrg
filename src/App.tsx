@@ -1,10 +1,10 @@
 import { Toaster } from 'react-hot-toast'
-import { PassGenerate } from './components/passGenerate'
+import { ContainerPassGenerator } from './components/ContainerPassGenerator'
 
 function App() {
 	return (
 		<>
-			<PassGenerate />
+			<ContainerPassGenerator />
 			<Toaster />
 		</>
 	)

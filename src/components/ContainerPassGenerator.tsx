@@ -1,4 +1,5 @@
 import { CHECKBOX_DATA } from '@/shared/const'
+import { copyText } from '@/shared/copyText'
 import { generatePassword } from '@/shared/generatePassword'
 import { usePasswordStore } from '@/store/store'
 import { useEffect } from 'react'
@@ -7,8 +8,10 @@ import { PasswordComplexity } from './PasswordComplexity'
 
 export const ContainerPassGenerator = () => {
 	const {
+		degreeOfSecurity,
 		setDegreeOfSecurity,
 		setParameterChecked,
+		setPassword,
 		password,
 		parameterChecked,
 	} = usePasswordStore()
@@ -33,6 +36,13 @@ export const ContainerPassGenerator = () => {
 			setDegreeOfSecurity('Слабый')
 		}
 	}, [parameterChecked])
+
+	const handleClickGenerate = () => {
+		if (degreeOfSecurity === 'выберите минимум 1 параметр') return //add toast
+		const readyPassword = generatePassword(parameterChecked)
+		setPassword(readyPassword)
+		copyText(readyPassword)
+	}
 
 	return (
 		<section className='px-10 py-10 max-w-92'>
@@ -73,7 +83,7 @@ export const ContainerPassGenerator = () => {
 				/>
 				<button
 					className='w-full p-1.5 mb-8 bg-white/80 text-black/95 text-lg rounded'
-					onClick={() => generatePassword()}
+					onClick={() => handleClickGenerate()}
 				>
 					Создать
 				</button>

@@ -1,34 +1,30 @@
 import { INITIAL_LETTERS } from './const'
-import { copyText } from './copyText'
+import { TParameterChecked } from './type'
 
-export function generatePassword() {
-	// const { parameterChecked, degreeOfSecurity, setPassword } = usePasswordStore()
-	if (degreeOfSecurity === 'Выберите минимум 1 параметр') return
+export function generatePassword(parametersProps: TParameterChecked) {
+	let addedLetters = ''
+	let createdPassword = ''
 
-	let addedLetters: string = ''
-	let createdPassword: string = ''
-
-	if (parameterChecked.numbers) {
+	if (parametersProps.numbers) {
 		addedLetters += INITIAL_LETTERS.numbers
 	}
 
-	if (parameterChecked.symbols) {
+	if (parametersProps.symbols) {
 		addedLetters += INITIAL_LETTERS.symbols
 	}
 
-	if (parameterChecked.lowercaseLetters) {
+	if (parametersProps.lowercaseLetters) {
 		addedLetters += INITIAL_LETTERS.lowerCase
 	}
 
-	if (parameterChecked.uppercaseLetters) {
+	if (parametersProps.uppercaseLetters) {
 		addedLetters += INITIAL_LETTERS.upperCase
 	}
 
-	for (let i = 0; i < length; i++) {
+	for (let i = 0; i < parametersProps.length; i++) {
 		const calcRandomIndex = Math.floor(Math.random() * addedLetters.length)
 		createdPassword += addedLetters[calcRandomIndex]
 	}
 
-	setPassword(createdPassword)
-	copyText(createdPassword)
+	return createdPassword
 }

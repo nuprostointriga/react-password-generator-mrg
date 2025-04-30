@@ -1,8 +1,9 @@
-import { CHECKBOX_DATA } from '@/shared/const'
+import { CHECKBOX_DATA, SECURITY_VALUE } from '@/shared/const'
 import { copyText } from '@/shared/copyText'
 import { generatePassword } from '@/shared/generatePassword'
 import { usePasswordStore } from '@/store/store'
 import { useEffect } from 'react'
+import toast from 'react-hot-toast'
 import { Checkbox } from './Checkbox'
 import { PasswordComplexity } from './PasswordComplexity'
 
@@ -22,23 +23,28 @@ export const ContainerPassGenerator = () => {
 		isTrueChecked = Object.values(parameterChecked).filter(Boolean).length - 1
 
 		if (isTrueChecked === 0) {
-			setDegreeOfSecurity('Выберите минимум 1 параметр')
+			setDegreeOfSecurity(SECURITY_VALUE.ERROR)
 		} else if (isTrueChecked >= 3 && parameterChecked.length >= 14) {
-			setDegreeOfSecurity('Сильный')
+			setDegreeOfSecurity(SECURITY_VALUE.STRONG)
 		} else if (
 			isTrueChecked > 1 &&
 			isTrueChecked <= 4 &&
 			parameterChecked.length >= 8 &&
 			parameterChecked.length <= 13
 		) {
-			setDegreeOfSecurity('Средний')
+			setDegreeOfSecurity(SECURITY_VALUE.MEDIUM)
 		} else {
-			setDegreeOfSecurity('Слабый')
+			setDegreeOfSecurity(SECURITY_VALUE.LOW)
 		}
 	}, [parameterChecked])
 
 	const handleClickGenerate = () => {
-		if (degreeOfSecurity === 'выберите минимум 1 параметр') return //add toast
+		if (degreeOfSecurity === SECURITY_VALUE.ERROR) {
+			return toast.error(
+				'Необходимо выбрать минимум 1 "Параметр пароля", для генерации.'
+			)
+		}
+
 		const readyPassword = generatePassword(parameterChecked)
 		setPassword(readyPassword)
 		copyText(readyPassword)

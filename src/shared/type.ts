@@ -33,3 +33,10 @@ export type TObjectCheckboxData = {
 	title: string
 	name: keyof Omit<TParameterChecked, 'length'>
 }
+
+export type TSecurityValue = {
+	ERROR: string
+	LOW: string
+	MEDIUM: string
+	STRONG: string
+}

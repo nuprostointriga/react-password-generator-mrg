@@ -2,23 +2,25 @@
 [done !]- letters убрать - лишняя информация в названии уже есть - константа initialLetters
 
 [done !]- passwordStrength - переименовать (время 4 минуты - в ревью)
-[]- generatePassword - выносим за рамки в другой файл и копирование в буфер тоже
+[done !]- generatePassword - выносим за рамки в другой файл и копирование в буфер тоже
 
 [done !]- <Checkbox - сделать циклом из массива - map
 
 [done !]- onClick = {generatePassword}
 
-[]- tailwind-merge / clsx - где покраска степени сложности пароля
+[done !]- tailwind-merge / clsx - где покраска степени сложности пароля
 
 [done !]- Наименования компонент и файл с большой буквы и там и там - passGenerate.jsx
 
 
-[]- if (passwordStrength === 'Выберите минимум 1 параметр') return  - add toast
-[]- toast.error('Выберите хотя бы один параметр!') - перед for циклом - 13:15 -ревью
+[done !]- if (passwordStrength === 'Выберите минимум 1 параметр') return  - add toast
+
+
+[ ??? ]- toast.error('Выберите хотя бы один параметр!') - перед for циклом - 13:15 -ревью  =>  Не до конца понял необходимости.
 
 
 [done !]- const isTrueChecked = Object.values(parameterChecked).filter(Boolean).length - 1   => в useEffect - проверка
 
 
-[]- copyTextToClipboard - валидация текста или тост - проверить что текст действительно есть перед копированием
+[done !]- copyTextToClipboard - валидация текста или тост - проверить что текст действительно есть перед копированием
 
